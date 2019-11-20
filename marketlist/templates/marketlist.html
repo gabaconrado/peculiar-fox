@@ -20,7 +20,11 @@
   <div id="div_list">
     <table id="table_list">
       {% for item in items %}
-      <tr>{{ item.name }}</tr>
+      <tr>
+        <td id="item_{{ forloop.counter }}">
+          {{ item.name }}
+        </td>
+      </tr>
       {% endfor %}
     </table>
   </div>
