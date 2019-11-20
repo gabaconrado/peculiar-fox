@@ -31,6 +31,8 @@ def browser(live_server):
 
 
 def test_user_can_add_item(browser):
+    # # Everytime the page is refreshed, the elements fetched get staled, thats why
+    # # we need to find them again
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
     assert browser.title == BROWSER_TITLE
