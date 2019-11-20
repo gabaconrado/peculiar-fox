@@ -12,6 +12,15 @@ from selenium.webdriver.common.keys import Keys
 
 MAX_TIMEOUT = 5
 
+BROWSER_TITLE = 'Peculiar fox'
+PAGE_TITLE = 'Market list'
+TITLE_ID = 'content_title'
+INPUT_ID = 'txt_item'
+TABLE_ID = 'table_list'
+BTN_SUBMIT_ID = 'btn_submit'
+ITEM_NAME_A = 'Milk'
+ITEM_NAME_B = 'Sauce'
+
 
 @pytest.fixture
 def browser(live_server):
@@ -24,30 +33,22 @@ def browser(live_server):
 def test_user_can_add_item(browser):
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
-    content_title = browser.find_element_by_id('content_title')
-    item_input = browser.find_element_by_id('txt_item')
-    btn_submit = browser.find_element_by_id('btn_submit')
-    table_list = browser.find_element_by_id('table_list')
-    rows_list = table_list.find_elements_by_tag_name('tr')
-    assert browser.title == 'Peculiar fox'
-    assert content_title.text == 'Market list'
-    assert not item_input.text
-    assert btn_submit
-    assert table_list
-    assert len(rows_list) == 0
+    assert browser.title == BROWSER_TITLE
+    assert browser.find_element_by_id(TITLE_ID).text == PAGE_TITLE
+    assert not browser.find_element_by_id(INPUT_ID).text
+    assert len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('tr')) == 0
     # Letício type an item and presses the button, the added item is shown and the field is cleared
-    item_input.send_keys('Milk')
-    btn_submit.click()
+    browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_A)
+    browser.find_element_by_id(BTN_SUBMIT_ID).click()
     sleep(1)
-    item_input = browser.find_element_by_id('txt_item')
-    table_list = browser.find_element_by_id('table_list')
-    rows_list = table_list.find_elements_by_tag_name('tr')
-    assert len(rows_list) == 1, 'Element was not added to the list'
+    assert \
+        len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('tr')) == 1, \
+        'Element was not added to the list'
     # Letício then tries to add a new item using enter instead of clicking the button
     # He sees that it works and the new item is also added to the list
-    item_input.send_keys('Sauce')
-    item_input.send_keys(Keys.ENTER)
+    browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_B)
+    browser.find_element_by_id(INPUT_ID).send_keys(Keys.ENTER)
     sleep(1)
-    table_list = browser.find_element_by_id('table_list')
-    rows_list = table_list.find_elements_by_tag_name('tr')
-    assert len(rows_list) == 2, 'New element was not added to the list'
+    assert \
+        len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('tr')) == 2, \
+        'New element was not added to the list'
