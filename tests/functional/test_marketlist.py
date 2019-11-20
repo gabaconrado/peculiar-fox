@@ -9,16 +9,14 @@ import pytest
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from marketlist.models import Item
-
 
 MAX_TIMEOUT = 5
 
 
 @pytest.fixture
-def browser():
+def browser(live_server):
     _browser = webdriver.Firefox()
-    _browser.get('http://localhost:8000/marketlist')
+    _browser.get(live_server.url + '/marketlist')
     yield _browser
     _browser.quit()
 
@@ -40,7 +38,7 @@ def test_user_can_add_item(browser):
     # Letício type an item and presses the button, the added item is shown and the field is cleared
     item_input.send_keys('Milk')
     btn_submit.click()
-    sleep(3)
+    sleep(1)
     item_input = browser.find_element_by_id('txt_item')
     table_list = browser.find_element_by_id('table_list')
     rows_list = table_list.find_elements_by_tag_name('tr')
@@ -49,7 +47,7 @@ def test_user_can_add_item(browser):
     # He sees that it works and the new item is also added to the list
     item_input.send_keys('Sauce')
     item_input.send_keys(Keys.ENTER)
-    sleep(3)
+    sleep(1)
     table_list = browser.find_element_by_id('table_list')
     rows_list = table_list.find_elements_by_tag_name('tr')
     assert len(rows_list) == 2, 'New element was not added to the list'
