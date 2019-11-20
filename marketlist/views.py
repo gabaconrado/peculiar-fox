@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, reverse
+from .models import Item
 
 
 def marketlist(request):
-    return render(request, 'marketlist.html')
+    if request.method == 'POST':
+        print(request.POST)
+        Item.objects.create(name=request.POST.get('name'))
+        return redirect(reverse('marketlist:marketlist'))
+    return render(request, 'marketlist.html', {'items': Item.objects.all()})
 
 
 def home(request):

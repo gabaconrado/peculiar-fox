@@ -11,13 +11,17 @@
     <h1 id="content_title">Market list</h1>
   </div>
   <div id="div_form">
-    <form>
-      <input type="text" id="txt_item" placeholder="Enter new item" /> <br />
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" id="txt_item" name="name" placeholder="Enter new item" /> <br />
       <input type="submit" id="btn_submit" />
     </form>
   </div>
   <div id="div_list">
     <table id="table_list">
+      {% for item in items %}
+      <tr>{{ item.name }}</tr>
+      {% endfor %}
     </table>
   </div>
 </body>
