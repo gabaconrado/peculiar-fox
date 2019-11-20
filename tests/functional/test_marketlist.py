@@ -12,7 +12,7 @@ from selenium import webdriver
 @pytest.fixture
 def browser():
     _browser = webdriver.Firefox()
-    _browser.get('http://localhost:8000')
+    _browser.get('http://localhost:8000/marketlist')
     yield _browser
     _browser.quit()
 

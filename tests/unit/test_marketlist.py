@@ -15,7 +15,7 @@ def client():
 
 
 def test_list_route(client):
-    path = reverse('marketlist')
+    path = reverse('marketlist:marketlist')
     response = client.get(path)
     assert response.status_code == 200
     assert response.resolver_match.func == views.marketlist
@@ -23,7 +23,7 @@ def test_list_route(client):
 
 
 def test_home_redir_to_marketlist(client):
-    path = reverse('home')
+    path = reverse('marketlist:home')
     response = client.get(path)
     assert response.status_code == 302
-    assert response.get('location') == reverse('marketlist')
+    assert response.get('location') == reverse('marketlist:marketlist')

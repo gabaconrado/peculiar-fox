@@ -6,4 +6,4 @@ def marketlist(request):
 
 
 def home(request):
-    return redirect(reverse('marketlist'))
+    return redirect(reverse('marketlist:marketlist'))
