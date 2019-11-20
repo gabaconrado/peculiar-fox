@@ -4,7 +4,6 @@ from .models import Item
 
 def marketlist(request):
     if request.method == 'POST':
-        print(request.POST)
         Item.objects.create(name=request.POST.get('name'))
         return redirect(reverse('marketlist:marketlist'))
     return render(request, 'marketlist.html', {'items': Item.objects.all()})
