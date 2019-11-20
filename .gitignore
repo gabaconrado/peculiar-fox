@@ -5,3 +5,6 @@ geckodriver.log
 
 # IDE files
 .vscode
+
+# Database files
+*.sqlite3
