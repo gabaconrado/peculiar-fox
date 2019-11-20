@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 
 
 def marketlist(request):
-    return None
+    return render(request, 'marketlist.html')
+
+
+def home(request):
+    return redirect(reverse('marketlist'))

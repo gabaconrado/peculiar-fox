@@ -20,7 +20,7 @@ def browser():
 def test_user_can_add_item(browser):
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     assert browser.title == 'Peculiar fox'
-    assert browser.find_elements_by_id('div_header').text == 'Market list'
-    assert not browser.find_elements_by_id('div_list')
+    assert browser.find_element_by_id('div_header').text == 'Market list'
+    assert not browser.find_element_by_id('div_list').text
     # Letício type an item and presses the button, the added item is shown and the field is cleared
     assert 1 == 2
