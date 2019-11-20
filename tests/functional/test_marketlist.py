@@ -6,10 +6,9 @@
 '''
 
 import pytest
+from time import sleep
 from selenium import webdriver
-#from selenium.webdriver.common.by import By
-#from selenium.webdriver.support.ui import WebDriverWait
-#from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 MAX_TIMEOUT = 5
 
@@ -37,5 +36,15 @@ def test_user_can_add_item(browser):
     assert table_list
     assert len(rows_list) == 0
     # Letício type an item and presses the button, the added item is shown and the field is cleared
-#    browser.find_element_by_id('txt_item').sendKeys('Milk')
-#    browser.find_element_by_id('btn_submit').click()
+    item_input.send_keys('Milk')
+    btn_submit.click()
+    sleep(1)
+    assert len(rows_list) == 1, 'Element was not added to the list'
+    assert rows_list[0].text == 'Milk', 'Wrong element added to the list'
+    # Letício then tries to add a new item using enter instead of clicking the button
+    # He sees that it works and the new item is also added to the list
+    item_input.send_keys('Sauce')
+    item_input.send_keys(Keys.ENTER)
+    sleep(1)
+    assert len(rows_list) == 2, 'New element was not added to the list'
+    assert rows_list[0].text == 'Sauce', 'Wrong element was added to the list'
