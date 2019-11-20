@@ -9,6 +9,7 @@ from django.test import Client
 from django.urls import reverse
 from marketlist import views
 
+
 @pytest.fixture
 def client():
     return Client()
