@@ -1,5 +1,5 @@
 '''
-@file:     test_marketlist.py
+@file:     test_marketlist.py (functional)
 @author:   Gaba <gabaconrado@gmail.com>
 @brief:    Functional tests for the marketlist module
 @date:     2019
