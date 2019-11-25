@@ -45,6 +45,7 @@ def test_add_new_item_and_redirect(response):
     assert response.status_code == 302
     assert response.get('location') == reverse('marketlist:marketlist')
 
+
 @pytest.mark.parametrize('path,method,data', [('marketlist:marketlist', METHOD_GET, None)])
 def test_add_new_item_and_show(item, response):
     assert item.name in response.content.decode()
