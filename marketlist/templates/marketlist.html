@@ -17,6 +17,12 @@
       <input type="submit" id="btn_submit" />
     </form>
   </div>
+  <div id="div_clean_form">
+    <form method="POST" action="../clean/">
+      {% csrf_token %}
+      <input type="submit" id="btn_clean" text="Clean list"/>
+    </form>
+  </div>
   <div id="div_list">
     <table id="table_list">
       {% for item in items %}

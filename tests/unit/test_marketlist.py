@@ -48,3 +48,8 @@ def test_add_new_item_and_redirect(response):
 @pytest.mark.parametrize('path,method,data', [('marketlist:marketlist', METHOD_GET, None)])
 def test_add_new_item_and_show(item, response):
     assert item.name in response.content.decode()
+
+
+def test_clear_list_and_redirect(item, client):
+    response = client.post(reverse('marketlist:clean'), follow=True)
+    assert item.name not in response.content.decode()
