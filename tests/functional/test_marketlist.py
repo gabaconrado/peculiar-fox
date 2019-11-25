@@ -23,9 +23,12 @@ TABLE_ID = 'table_list'
 BTN_SUBMIT_ID = 'btn_submit'
 ITEM_NAME_A = 'Milk'
 ITEM_NAME_B = 'Sauce'
+ITEM_ID_A = 'item_1'
+ITEM_ID_B = 'item_2'
+BTN_CLEAN_ID = 'btn_clean'
 
 
-@pytest.fixture
+@pytest.fixture()
 def browser(live_server):
     _browser = webdriver.Firefox()
     _browser.get(live_server.url + '/marketlist')
@@ -33,7 +36,7 @@ def browser(live_server):
     _browser.quit()
 
 
-def test_user_can_add_item(browser):
+def test_user_can_add_item_and_check(browser):
     # # Everytime the page is refreshed, the elements fetched get staled, thats why
     # # we need to find them again
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
@@ -46,12 +49,41 @@ def test_user_can_add_item(browser):
     browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_A)
     browser.find_element_by_id(BTN_SUBMIT_ID).click()
     WebDriverWait(browser, MAX_TIMEOUT).until(
-        EC.text_to_be_present_in_element((By.ID, 'item_1'), ITEM_NAME_A)
+        EC.text_to_be_present_in_element((By.ID, ITEM_ID_A), ITEM_NAME_A)
     )
     # Letício then tries to add a new item using enter instead of clicking the button
     # He sees that it works and the new item is also added to the list
     browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_B)
     browser.find_element_by_id(INPUT_ID).send_keys(Keys.ENTER)
     WebDriverWait(browser, MAX_TIMEOUT).until(
-        EC.text_to_be_present_in_element((By.ID, 'item_2'), ITEM_NAME_B)
+        EC.text_to_be_present_in_element((By.ID, ITEM_ID_B), ITEM_NAME_B)
     )
+
+
+def test_user_can_delete_list(browser):
+    # Letício enter the website and notice a "Market list" blank page with a textfield and a button
+    # The textfield and the list are clear
+    assert browser.title == BROWSER_TITLE
+    assert browser.find_element_by_id(TITLE_ID).text == PAGE_TITLE
+    assert not browser.find_element_by_id(INPUT_ID).text
+    assert not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td'))
+    # He add two items to his list
+    browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_A)
+    browser.find_element_by_id(BTN_SUBMIT_ID).click()
+    WebDriverWait(browser, MAX_TIMEOUT).until(
+        EC.text_to_be_present_in_element((By.ID, ITEM_ID_A), ITEM_NAME_A)
+    )
+    browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_B)
+    browser.find_element_by_id(BTN_SUBMIT_ID).click()
+    WebDriverWait(browser, MAX_TIMEOUT).until(
+        EC.text_to_be_present_in_element((By.ID, ITEM_ID_B), ITEM_NAME_B)
+    )
+    # Letício then goes to the supermarket and buy everything he needs, when he comes back
+    # he decides to clear his list, he notices a button "Clean list" and presses it
+    item_a = browser.find_element_by_id(ITEM_ID_A)
+    browser.find_element_by_id(BTN_CLEAN_ID).click()
+    WebDriverWait(browser, MAX_TIMEOUT).until(
+        EC.staleness_of(item_a)
+    )
+    # Letício then sees that all the items were removed from the list
+    assert not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td'))
