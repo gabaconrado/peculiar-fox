@@ -36,15 +36,20 @@ def browser(live_server):
     _browser.quit()
 
 
+def is_homepage_clean(browser):
+    return (
+        browser.title == BROWSER_TITLE and
+        browser.find_element_by_id(TITLE_ID).text == PAGE_TITLE and
+        not browser.find_element_by_id(INPUT_ID).text and
+        not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td')))
+
+
 def test_user_can_add_item_and_check(browser):
     # # Everytime the page is refreshed, the elements fetched get staled, thats why
     # # we need to find them again
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
-    assert browser.title == BROWSER_TITLE
-    assert browser.find_element_by_id(TITLE_ID).text == PAGE_TITLE
-    assert not browser.find_element_by_id(INPUT_ID).text
-    assert not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td'))
+    assert is_homepage_clean(browser)
     # Letício type an item and presses the button, the added item is shown and the field is cleared
     browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_A)
     browser.find_element_by_id(BTN_SUBMIT_ID).click()
@@ -63,10 +68,7 @@ def test_user_can_add_item_and_check(browser):
 def test_user_can_delete_list(browser):
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
-    assert browser.title == BROWSER_TITLE
-    assert browser.find_element_by_id(TITLE_ID).text == PAGE_TITLE
-    assert not browser.find_element_by_id(INPUT_ID).text
-    assert not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td'))
+    assert is_homepage_clean(browser)
     # He add two items to his list
     browser.find_element_by_id(INPUT_ID).send_keys(ITEM_NAME_A)
     browser.find_element_by_id(BTN_SUBMIT_ID).click()
@@ -86,4 +88,4 @@ def test_user_can_delete_list(browser):
         EC.staleness_of(item_a)
     )
     # Letício then sees that all the items were removed from the list
-    assert not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td'))
+    assert is_homepage_clean(browser)
