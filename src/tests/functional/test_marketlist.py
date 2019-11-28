@@ -15,16 +15,15 @@ from selenium.webdriver.support import expected_conditions as EC
 
 MAX_TIMEOUT = 3
 BROWSER_TITLE = 'Peculiar fox'
-PAGE_TITLE = 'Market list'
+PAGE_TITLE = 'Market List'
 TITLE_ID = 'content_title'
 INPUT_ID = 'txt_item'
 TABLE_ID = 'table_list'
-BTN_SUBMIT_ID = 'btn_submit'
 ITEM_NAME_A = 'Milk'
 ITEM_NAME_B = 'Sauce'
 ITEM_ID_A = 'item_1'
 ITEM_ID_B = 'item_2'
-BTN_CLEAN_ID = 'btn_clean'
+LINK_CLEAN_ID = 'link_clean'
 
 
 @pytest.fixture()
@@ -43,12 +42,9 @@ def is_homepage_clean(browser):
         not len(browser.find_element_by_id(TABLE_ID).find_elements_by_tag_name('td')))
 
 
-def insert_item(browser, item_name, item_id, use_button=True):
+def insert_item(browser, item_name, item_id):
     browser.find_element_by_id(INPUT_ID).send_keys(item_name)
-    if use_button:
-        browser.find_element_by_id(BTN_SUBMIT_ID).click()
-    else:
-        browser.find_element_by_id(INPUT_ID).send_keys(Keys.ENTER)
+    browser.find_element_by_id(INPUT_ID).send_keys(Keys.ENTER)
     WebDriverWait(browser, MAX_TIMEOUT).until(
         EC.text_to_be_present_in_element((By.ID, item_id), item_name)
     )
@@ -62,9 +58,6 @@ def test_user_can_add_item_and_check(browser):
     assert is_homepage_clean(browser)
     # Letício type an item and presses the button, the added item is shown and the field is cleared
     insert_item(browser, ITEM_NAME_A, ITEM_ID_A)
-    # Letício then tries to add a new item using enter instead of clicking the button
-    # He sees that it works and the new item is also added to the list
-    insert_item(browser, ITEM_NAME_B, ITEM_ID_B, use_button=False)
 
 
 def test_user_can_delete_list(browser):
@@ -73,13 +66,11 @@ def test_user_can_delete_list(browser):
     assert is_homepage_clean(browser)
     # He add two items to his list
     insert_item(browser, ITEM_NAME_A, ITEM_ID_A)
-    # Letício then tries to add a new item using enter instead of clicking the button
-    # He sees that it works and the new item is also added to the list
     insert_item(browser, ITEM_NAME_B, ITEM_ID_B)
     # Letício then goes to the supermarket and buy everything he needs, when he comes back
     # he decides to clear his list, he notices a button "Clean list" and presses it
     item_a = browser.find_element_by_id(ITEM_ID_A)
-    browser.find_element_by_id(BTN_CLEAN_ID).click()
+    browser.find_element_by_id(LINK_CLEAN_ID).click()
     WebDriverWait(browser, MAX_TIMEOUT).until(
         EC.staleness_of(item_a)
     )
