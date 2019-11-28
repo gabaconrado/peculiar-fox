@@ -2,12 +2,12 @@
 
 # Install dependencies and update the database
 if [ $DEBUG -eq 1 ]; then
-    REQFOLDER="development"
+    REQUIREMENTS_SUFIX="development"
 else
-    REQFOLDER="deploy"
+    REQUIREMENTS_SUFIX="deploy"
 fi
-pip install -r etc/base/requirements.txt
-pip install -r etc/$REQFOLDER/requirements.txt
+pip install -r /etc/requirements-base.txt
+pip install -r /etc/requirements-${REQUIREMENTS_SUFIX}.txt
 python manage.py migrate --no-input
 
 exec "$@"

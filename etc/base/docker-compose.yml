@@ -6,4 +6,7 @@ services:
     build: ./peculiar-fox-app
     working_dir: /code
     volumes:
-      - "../../:/code"
+      - "../../src:/code:ro"
+      - "./requirements.txt:/etc/requirements-base.txt:ro"
+      - "../deploy/requirements.txt:/etc/requirements-deploy.txt:ro"
+      - "../development/requirements.txt:/etc/requirements-development.txt:ro"
