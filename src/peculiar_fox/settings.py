@@ -28,13 +28,12 @@ for directory in REQUIRED_DIRECTORIES:
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jeme!l01z!jgky+!68!c*4#!guy$-x92b^b^se!%f%!@%6u1u+'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'jeme!l01z!jgky+!68!c*4#!guy$-x92b^b^se!%f%!@%6u1u+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', '0')))
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1 localhost').split(' ')
 
 # Application definition
 
