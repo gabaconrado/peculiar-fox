@@ -6,7 +6,11 @@ services:
     build: ./peculiar-fox-app
     working_dir: /code
     volumes:
-      - "../../src:/code:ro"
-      - "./requirements.txt:/etc/requirements-base.txt:ro"
-      - "../deploy/requirements.txt:/etc/requirements-deploy.txt:ro"
-      - "../development/requirements.txt:/etc/requirements-development.txt:ro"
+      - ../../src:/code:ro
+      - ./requirements.txt:/etc/requirements-base.txt:ro
+      - ../deploy/requirements.txt:/etc/requirements-deploy.txt:ro
+      - ../development/requirements.txt:/etc/requirements-development.txt:ro
+      - static-files:/static-files
+
+volumes:
+    static-files:

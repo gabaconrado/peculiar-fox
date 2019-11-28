@@ -8,10 +8,14 @@ services:
 
   nginx:
     build: ../deploy/nginx
+    depends_on:
+      - peculiar-fox-app
     container_name: nginx
     working_dir: /etc/server
+    volumes:
+      - static-files:/etc/server/static-files
     env_file:
-        - ../deploy/nginx/.env
+      - ../deploy/nginx/.env
     ports:
       - "80:80"
       - "443:443"

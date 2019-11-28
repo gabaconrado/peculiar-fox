@@ -127,4 +127,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "peculiar_fox/static"),
+]
+
 STATIC_ROOT = STATIC_DIR
