@@ -9,6 +9,8 @@ geckodriver.log
 
 # Database files
 *.sqlite3
+database/
+static-files/
 
 # Docker
 .DS_Store
