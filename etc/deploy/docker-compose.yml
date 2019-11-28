@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  peculiar-fox-app:
+    env_file:
+        - ../deploy/.env
+    command: sh -c "gunicorn peculiar_fox.wsgi:application --bind 0.0.0.0:8000"
+
+  nginx:
+    build: ../deploy/nginx
+    container_name: nginx
+    env_file:
+        - ../deploy/nginx/.env
+    ports:
+      - "80:80"
+      - "443:443"
+    command: sh -c "nginx -g 'daemon off;'"

@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  peculiar-fox-app:
+    container_name: peculiar-fox-app
+    build: ./peculiar-fox-app
+    working_dir: /code
+    volumes:
+      - "../../:/code"

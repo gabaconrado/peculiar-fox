@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  peculiar-fox-app:
+    env_file:
+        - ../development/.env
+    ports:
+      - "8000:8000"
+      - "3000:3000" 
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
