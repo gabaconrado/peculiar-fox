@@ -9,6 +9,7 @@ services:
   nginx:
     build: ../deploy/nginx
     container_name: nginx
+    working_dir: /etc/server
     env_file:
         - ../deploy/nginx/.env
     ports:
