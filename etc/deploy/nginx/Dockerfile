@@ -8,4 +8,7 @@ RUN chmod +x /entrypoint.sh
 RUN rm /etc/nginx/conf.d/default.conf
 COPY peculiar-fox.conf /etc/nginx/conf.d/
 
+COPY servercert.pem /
+COPY serverkey.pem /
+
 ENTRYPOINT [ "/entrypoint.sh" ]
