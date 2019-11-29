@@ -25,6 +25,11 @@ def response(db, client, path, method, data):
     return client.post(reverse(path), data)
 
 
+def was_redirected_to_marketlist_home(response):
+    return response.status_code == 302 \
+        and response.get('location') == reverse('marketlist:marketlist')
+
+
 @pytest.mark.parametrize('path,method,data', [('marketlist:marketlist', METHOD_GET, None)])
 def test_list_route(response):
     assert response.status_code == 200
@@ -32,18 +37,27 @@ def test_list_route(response):
     assert response.templates[0].name == 'marketlist.html'
 
 
-@pytest.mark.parametrize('path,method,data', [('marketlist:home', METHOD_GET, None)])
-def test_home_redir_to_marketlist(response):
-    assert response.status_code == 302
-    assert response.get('location') == reverse('marketlist:marketlist')
+@pytest.mark.parametrize(
+    'path,method,data',
+    [
+        ('marketlist:home', METHOD_GET, None),
+        ('home', METHOD_GET, None),
+    ],
+    ids=[
+        "from marketlist home",
+        "from website home",
+    ]
+)
+def test_redir_to_marketlist(response):
+    assert was_redirected_to_marketlist_home
+
 
 @pytest.mark.parametrize(
     'path,method,data', [('marketlist:marketlist', METHOD_POST, {'name': 'Milk'})])
 def test_add_new_item_and_redirect(response):
     assert Item.objects.count() == 1, 'Object not inserted'
     assert Item.objects.first().name == 'Milk', 'Wrong object inserted'
-    assert response.status_code == 302
-    assert response.get('location') == reverse('marketlist:marketlist')
+    assert was_redirected_to_marketlist_home
 
 
 @pytest.mark.parametrize('path,method,data', [('marketlist:marketlist', METHOD_GET, None)])

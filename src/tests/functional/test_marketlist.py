@@ -29,7 +29,7 @@ LINK_CLEAN_ID = 'link_clean'
 @pytest.fixture()
 def browser(live_server):
     _browser = webdriver.Firefox()
-    _browser.get(live_server.url + '/marketlist')
+    _browser.get(live_server.url + '/')
     yield _browser
     _browser.quit()
 
@@ -55,7 +55,7 @@ def test_user_can_add_item_and_check(browser):
     # # we need to find them again
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
-    assert is_homepage_clean(browser)
+    assert is_homepage_clean(browser), "Homepage is not clean or it is wrong"
     # Letício type an item and presses the button, the added item is shown and the field is cleared
     insert_item(browser, ITEM_NAME_A, ITEM_ID_A)
 
@@ -63,7 +63,7 @@ def test_user_can_add_item_and_check(browser):
 def test_user_can_delete_list(browser):
     # Letício enter the website and notice a "Market list" blank page with a textfield and a button
     # The textfield and the list are clear
-    assert is_homepage_clean(browser)
+    assert is_homepage_clean(browser), "Homepage is not clean or it is wrong"
     # He add two items to his list
     insert_item(browser, ITEM_NAME_A, ITEM_ID_A)
     insert_item(browser, ITEM_NAME_B, ITEM_ID_B)
