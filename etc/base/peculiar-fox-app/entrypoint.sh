@@ -3,7 +3,7 @@
 pip install -r /etc/requirements-base.txt
 
 # Install dependencies and update the database
-if [ $DEBUG -eq 1 ]; then
+if [ ${DEBUG} -eq 1 ]; then
     REQUIREMENTS_SUFIX="development"
 else
     REQUIREMENTS_SUFIX="deploy"

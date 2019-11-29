@@ -15,11 +15,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASE_DIR = os.path.join(BASE_DIR, '../database')
-STATIC_DIR = os.path.join(BASE_DIR, '../static-files')
-
 
 # Create required directories
-REQUIRED_DIRECTORIES = [DATABASE_DIR, STATIC_DIR]
+REQUIRED_DIRECTORIES = [DATABASE_DIR]
 
 for directory in REQUIRED_DIRECTORIES:
     os.makedirs(directory, exist_ok=True)
@@ -131,4 +129,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "peculiar_fox/static"),
 ]
 
-STATIC_ROOT = STATIC_DIR
+STATIC_ROOT = os.path.join(BASE_DIR, '../static-files')
