@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pip install -r /etc/base/requirements.txt
+pip install -r /etc/requirements-base.txt
 
 # Install dependencies and update the database
 if [ ${DEBUG} -eq 1 ]; then
