@@ -24,8 +24,7 @@ jobs:
       - run:
           name: SSH and run deploy
           command: |
-            ssh -oStrictHostKeyChecking=no ec2-user@peculiar-fox.gaba.app
-            cd peculiar-fox/etc/base && ./auto_deploy.sh
+            ssh -oStrictHostKeyChecking=no ${USER_NAME}@${HOST_NAME} 'cd peculiar-fox/etc/base && ./auto_deploy.sh'
 
 workflows:
   version: 2
