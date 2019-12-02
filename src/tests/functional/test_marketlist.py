@@ -5,12 +5,14 @@
 @date:     2019
 '''
 
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 
 
 MAX_TIMEOUT = 3
@@ -28,7 +30,9 @@ LINK_CLEAN_ID = 'link_clean'
 
 @pytest.fixture()
 def browser(live_server):
-    _browser = webdriver.Firefox()
+    options = Options()
+    options.headless = bool(int(os.environ.get('NO_DISPLAY_MODE', '0')))
+    _browser = webdriver.Firefox(options=options)
     _browser.get(live_server.url + '/')
     yield _browser
     _browser.quit()

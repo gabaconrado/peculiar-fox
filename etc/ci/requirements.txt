@@ -1,0 +1,5 @@
+Django==2.2.7
+pytest-django==3.7.0
+flake8==3.7.9
+selenium==3.141.0
+pytest-cov==2.8.1
