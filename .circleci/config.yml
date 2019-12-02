@@ -6,13 +6,35 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Prepare environment
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -q -r etc/base/requirements.txt
             pip install -q -r etc/development/requirements.txt
       - run:
-          name: Running tests
+          name: Run tests
           command: |
             . venv/bin/activate
             cd src && pytest tests
+  deploy:
+    docker:
+      - image: kroniak/ssh-client
+    steps:
+      - run:
+          name: SSH and run deploy
+          command: |
+            ssh -oStrictHostKeyChecking=no ec2-user@peculiar-fox.gaba.app
+            cd peculiar-fox/etc/base && ./auto_deploy.sh
+
+workflows:
+  version: 2
+  build_and_deploy:
+  jobs:
+    - build
+    - deploy:
+      requires:
+        - build
+      filters:
+        branches:
+          only: master
