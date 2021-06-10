@@ -1,4 +1,4 @@
-Django==2.2.8
+Django==2.2.24
 pytest-django==3.7.0
 flake8==3.7.9
 selenium==3.141.0
